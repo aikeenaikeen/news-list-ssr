@@ -32,6 +32,126 @@ const MAX_FEED_SIZE = 5 * 1024 * 1024
 const FORCE_REFRESH_COOLDOWN_MS = 15_000
 let lastForcedRefreshAt = 0
 
+class FeedFetchError extends Error {
+  constructor(message: string, readonly retryable: boolean) {
+    super(message)
+    this.name = 'FeedFetchError'
+  }
+}
+
+function waitBeforeRetry(): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, 250))
+}
+
+async function readLimitedBody(
+  response: Response,
+  maximumBytes: number,
+): Promise<string> {
+  if (!response.body) {
+    throw new FeedFetchError('RSS-источник вернул пустой ответ', false)
+  }
+
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  let totalBytes = 0
+  let body = ''
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+
+      totalBytes += value.byteLength
+      if (totalBytes > maximumBytes) {
+        await reader.cancel()
+        throw new FeedFetchError('RSS-ответ превышает допустимый размер', false)
+      }
+
+      body += decoder.decode(value, { stream: true })
+    }
+
+    body += decoder.decode()
+    return body
+  }
+  finally {
+    reader.releaseLock()
+  }
+}
+
+export async function fetchFeedXml(
+  feedUrl: string,
+  timeoutMs: number,
+  maximumBytes = MAX_FEED_SIZE,
+): Promise<string> {
+  const url = new URL(feedUrl)
+  if (url.protocol !== 'https:') {
+    throw new FeedFetchError('RSS URL должен использовать HTTPS', false)
+  }
+
+  let lastError: unknown
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), timeoutMs)
+
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'accept': 'application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
+          'user-agent': 'NewsListSSR/1.0 (+https://github.com/)',
+        },
+        redirect: 'follow',
+        signal: controller.signal,
+      })
+
+      if (!response.ok) {
+        const retryable = response.status === 408
+          || response.status === 429
+          || response.status >= 500
+        throw new FeedFetchError(`RSS-источник ответил HTTP ${response.status}`, retryable)
+      }
+
+      const responseUrl = new URL(response.url || url)
+      if (responseUrl.protocol !== 'https:') {
+        throw new FeedFetchError('RSS-источник перенаправил запрос на небезопасный URL', false)
+      }
+
+      const contentLength = Number(response.headers.get('content-length'))
+      if (Number.isFinite(contentLength) && contentLength > maximumBytes) {
+        throw new FeedFetchError('RSS-ответ превышает допустимый размер', false)
+      }
+
+      const contentType = response.headers.get('content-type')?.toLowerCase()
+      if (contentType && !/(?:rss|xml|text\/plain)/.test(contentType)) {
+        throw new FeedFetchError('RSS-источник вернул неподдерживаемый тип данных', false)
+      }
+
+      const xml = await readLimitedBody(response, maximumBytes)
+      if (!xml.trim()) {
+        throw new FeedFetchError('RSS-источник вернул пустой ответ', false)
+      }
+
+      return xml
+    }
+    catch (error) {
+      lastError = error
+      const retryable = !(error instanceof FeedFetchError) || error.retryable
+      if (!retryable || attempt === 1) {
+        throw error
+      }
+
+      await waitBeforeRetry()
+    }
+    finally {
+      clearTimeout(timeout)
+    }
+  }
+
+  throw lastError
+}
+
 function sourceUrl(sourceId: NewsSourceId, options: NewsRuntimeOptions): string {
   return sourceId === 'mos' ? options.mosRssUrl : options.lentaRssUrl
 }
@@ -60,25 +180,15 @@ async function fetchSource(
   }
 
   try {
-    const xml = await $fetch<string>(sourceUrl(source.id, options), {
-      headers: {
-        'accept': 'application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
-        'user-agent': 'NewsListSSR/1.0 (+https://github.com/)',
-      },
-      responseType: 'text',
-      retry: 1,
-      retryDelay: 250,
-      timeout: options.requestTimeoutMs,
-    })
-
-    if (xml.length > MAX_FEED_SIZE) {
-      throw new Error(`Ответ ${source.name} превышает допустимый размер`)
-    }
+    const xml = await fetchFeedXml(
+      sourceUrl(source.id, options),
+      options.requestTimeoutMs,
+    )
 
     const items = parseRssFeed(xml, source, options.maxItemsPerSource)
     sourceCache.set(source.id, {
       items,
-      fetchedAt: now,
+      fetchedAt: Date.now(),
     })
 
     return {

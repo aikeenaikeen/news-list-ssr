@@ -57,6 +57,14 @@ describe('parseRssFeed', () => {
     expect(() => parseRssFeed('<rss><channel /></rss>', mosSource, 10))
       .toThrow('не вернул новостей')
   })
+
+  it('rejects document type and entity declarations', () => {
+    expect(() => parseRssFeed(
+      '<!DOCTYPE rss [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><rss />',
+      mosSource,
+      10,
+    )).toThrow('небезопасный XML')
+  })
 })
 
 describe('toPlainText', () => {

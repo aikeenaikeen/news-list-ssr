@@ -12,7 +12,7 @@ const parser = new XMLParser({
   ignoreAttributes: false,
   parseAttributeValue: false,
   parseTagValue: false,
-  processEntities: true,
+  processEntities: false,
   removeNSPrefix: true,
   trimValues: true,
 })
@@ -152,6 +152,10 @@ export function parseRssFeed(
   source: NewsSource,
   maxItems: number,
 ): NewsItem[] {
+  if (/<!\s*(?:DOCTYPE|ENTITY)\b/i.test(xml)) {
+    throw new Error(`Источник ${source.name} вернул небезопасный XML`)
+  }
+
   const document = parser.parse(xml) as unknown
 
   if (!isRecord(document)) {
