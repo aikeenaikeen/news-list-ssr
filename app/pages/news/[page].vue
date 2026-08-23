@@ -79,9 +79,14 @@ const isRefreshing = computed(() => (
   status.value === 'pending' && newsStore.items.length > 0
 ))
 const hasFatalError = computed(() => Boolean(error.value && newsStore.items.length === 0))
+const hasRefreshError = computed(() => Boolean(error.value && newsStore.items.length > 0))
 const statusMessage = computed(() => {
   if (isRefreshing.value) {
     return 'Обновляем список новостей'
+  }
+
+  if (hasRefreshError.value) {
+    return 'Не удалось обновить новости. Показана ранее загруженная версия.'
   }
 
   if (newsStore.warnings.length > 0) {
@@ -180,7 +185,7 @@ useHead({
   >
     <NewsHeader
       :model-value="searchDraft"
-      :refreshing="isRefreshing"
+      :refreshing="status === 'pending'"
       @update:model-value="updateSearchDraft"
       @submit="submitSearch"
       @refresh="refreshNews"
@@ -204,7 +209,21 @@ useHead({
     </p>
 
     <aside
-      v-if="newsStore.warnings.length"
+      v-if="hasRefreshError"
+      class="news-warning"
+      aria-live="polite"
+    >
+      Не удалось обновить новости. Показана ранее загруженная версия.
+      <button
+        class="news-warning__retry"
+        type="button"
+        @click="refreshNews"
+      >
+        Повторить
+      </button>
+    </aside>
+    <aside
+      v-else-if="newsStore.warnings.length"
       class="news-warning"
       aria-live="polite"
     >
@@ -248,11 +267,11 @@ useHead({
 
 <style scoped lang="scss">
 .news-page {
-  width: 76%;
+  width: calc(100% - 40px);
   max-width: $content-max-width;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 58px 0 140px;
+  padding: 54px 0 140px;
 }
 
 .news-feed {
@@ -275,6 +294,12 @@ useHead({
   }
 }
 
+@media (min-width: 768px) and (max-width: 820px) {
+  .news-feed--grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .news-warning {
   margin-bottom: 24px;
   padding: 12px 16px;
@@ -282,6 +307,15 @@ useHead({
   background: $color-warning-bg;
   color: $color-warning-text;
   font-size: 14px;
+
+  &__retry {
+    @include interactive-reset;
+    margin-left: 8px;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
 @include mobile {

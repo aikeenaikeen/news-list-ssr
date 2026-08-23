@@ -243,6 +243,12 @@ watch(() => props.item.id, () => {
   }
 }
 
+@media (min-width: 768px) {
+  .news-card--grid .news-card__footer {
+    background: $color-surface;
+  }
+}
+
 @include mobile {
   .news-card {
     padding-right: 20px;
@@ -297,7 +303,7 @@ watch(() => props.item.id, () => {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto auto 32px;
       min-height: 0;
-      padding-top: 16px;
+      padding-top: 20px;
 
       .news-card__media {
         grid-row: auto;

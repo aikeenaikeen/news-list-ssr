@@ -130,7 +130,7 @@ const emit = defineEmits<{
   align-items: center;
   justify-content: space-between;
   min-height: 28px;
-  margin: 32px 0 36px;
+  margin: 36px 0 34px;
 
   &__sources,
   &__views {
@@ -166,7 +166,7 @@ const emit = defineEmits<{
   }
 
   &__reset {
-    color: #777777;
+    color: #707070;
     font-size: 14px;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -231,15 +231,8 @@ const emit = defineEmits<{
 }
 
 @media (max-width: 390px) {
-  .news-toolbar {
-    &__sources {
-      gap: 12px;
-    }
-
-    &__reset {
-      position: absolute;
-      margin-top: 48px;
-    }
+  .news-toolbar__sources {
+    gap: 12px;
   }
 }
 </style>
