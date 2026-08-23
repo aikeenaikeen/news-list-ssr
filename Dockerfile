@@ -16,7 +16,8 @@ RUN pnpm install --frozen-lockfile
 FROM dependencies AS build
 
 COPY . .
-RUN pnpm build
+RUN pnpm exec nuxt prepare \
+  && pnpm build
 
 FROM node:24.19.0-alpine3.24@sha256:d32cdf619f63fe0471182d08996dd516c6275bb5fd31ae06e55a570bd9e1ad43 AS runtime
 
