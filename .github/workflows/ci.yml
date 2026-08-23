@@ -18,32 +18,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-        with:
-          version: 11.22.0
-          run_install: false
-
       - name: Install Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24.19.0
-          cache: pnpm
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Lint
-        run: pnpm lint
+        run: npm run lint
 
       - name: Type-check
-        run: pnpm typecheck
+        run: npm run typecheck
 
       - name: Unit tests
-        run: pnpm test
+        run: npm test
 
       - name: Production build
-        run: pnpm build
+        run: npm run build
 
       - name: Build SSR container
         run: docker build --tag news-list-ssr:ci .
