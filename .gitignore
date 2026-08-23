@@ -22,10 +22,3 @@ node_modules
 .vscode
 .DS_Store
 Thumbs.db
-
-# Test output
-coverage
-
-# Local browser verification artifacts
-.playwright-cli
-output

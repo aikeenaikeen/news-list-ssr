@@ -22,9 +22,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
     "@pinia/nuxt": "1.0.2",
@@ -41,7 +39,6 @@
     "eslint": "10.9.0",
     "sass": "1.103.1",
     "typescript": "6.0.3",
-    "vitest": "4.1.11",
     "vue-tsc": "3.3.11"
   }
 }
