@@ -1,5 +1,4 @@
 export default defineNuxtConfig({
-
   modules: [
     '@pinia/nuxt',
     '@nuxt/eslint',
@@ -22,7 +21,7 @@ export default defineNuxtConfig({
           name: 'description',
           content: 'Свежие новости Mos.ru и Lenta.ru в одном месте.',
         },
-        { name: 'theme-color', content: '#003cff' },
+        { name: 'theme-color', content: '#0029ff' },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
@@ -41,6 +40,18 @@ export default defineNuxtConfig({
       lentaRssUrl: 'https://lenta.ru/rss/news',
     },
   },
+
+  routeRules: {
+    '/**': {
+      headers: {
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+      },
+    },
+  },
+
   compatibilityDate: '2026-08-23',
 
   nitro: {
