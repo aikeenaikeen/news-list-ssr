@@ -1,0 +1,55 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.news-state {
+  @include card-shadow;
+  padding: 64px 32px;
+  background: $color-surface;
+  text-align: center;
+
+  &__title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  &__text {
+    margin-top: 14px;
+    font-size: 18px;
+  }
+
+  &__action {
+    @include interactive-reset;
+    margin-top: 28px;
+    padding: 12px 20px;
+    background: $color-primary;
+    color: $color-surface;
+    font-weight: 700;
+    transition: opacity $transition-fast;
+
+    &:hover:not(:disabled) {
+      opacity: 0.82;
+    }
+
+    &:disabled {
+      opacity: 0.55;
+    }
+  }
+
+  &--error .news-state__title {
+    color: $color-danger;
+  }
+}
+
+@include mobile {
+  .news-state {
+    padding: 44px 20px;
+
+    &__title {
+      font-size: 21px;
+    }
+
+    &__text {
+      font-size: 14px;
+    }
+  }
+}

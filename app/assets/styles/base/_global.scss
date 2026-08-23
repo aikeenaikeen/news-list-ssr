@@ -1,0 +1,69 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+body {
+  background: $color-page;
+  color: $color-text;
+  font-family: $font-family-base;
+  font-size: 16px;
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba($color-primary, 0.18);
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  padding: 10px 14px;
+  transform: translateY(-180%);
+  background: $color-surface;
+  color: $color-primary;
+  font-weight: 700;
+  box-shadow: $shadow-control;
+  transition: transform $transition-fast;
+
+  &:focus {
+    transform: translateY(0);
+    @include focus-ring(0);
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+button,
+a,
+input {
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+@include reduced-motion {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
