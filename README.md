@@ -18,7 +18,7 @@ SSR-веб-приложение, которое объединяет новос�
 - четыре карточки на страницу и доступная пагинация с многоточиями;
 - empty/error/partial-error/loading состояния;
 - адаптивная SCSS-вёрстка, доступность, SEO metadata и security headers;
-- strict TypeScript, ESLint, 18 unit-тестов, production build и GitHub Actions CI.
+- strict TypeScript, ESLint, 23 unit-теста, production build и GitHub Actions CI.
 
 ## Стек
 
@@ -168,7 +168,8 @@ Lenta.ru сейчас почти всегда отдаёт пустой `<descri
 Unit-тесты покрывают:
 
 - Mos.ru/Lenta.ru RSS fixtures, CDATA, entities, очистку HTML и выбор изображения;
-- запрет небезопасных media URL;
+- запрет небезопасных XML declarations и media URL, ограничение потока по байтам и проверку MIME type;
+- частичный ответ при отказе одного RSS и контролируемый `502` при отказе обоих;
 - поиск по title/description, source filter, регистр и `е/ё`;
 - детерминированную дату в `Europe/Moscow`;
 - pagination с началом, серединой и концом диапазона;
