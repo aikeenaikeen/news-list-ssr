@@ -100,7 +100,7 @@ export async function fetchFeedXml(
       const response = await fetch(url, {
         headers: {
           'accept': 'application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8',
-          'user-agent': 'NewsListSSR/1.0 (+https://github.com/)',
+          'user-agent': 'NewsListSSR/1.0 (+https://github.com/aikeenaikeen/news-list-ssr)',
         },
         redirect: 'follow',
         signal: controller.signal,

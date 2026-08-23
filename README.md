@@ -1,6 +1,10 @@
 # Список новостей — Nuxt 4 SSR
 
+[![Quality checks](https://github.com/aikeenaikeen/news-list-ssr/actions/workflows/ci.yml/badge.svg)](https://github.com/aikeenaikeen/news-list-ssr/actions/workflows/ci.yml)
+
 SSR-веб-приложение, которое объединяет новости [Mos.ru](https://www.mos.ru/rss) и [Lenta.ru](https://lenta.ru/rss/news), фильтрует их по источнику и содержанию и отображает в двух адаптивных режимах по предоставленному Figma-макету.
+
+Репозиторий: [github.com/aikeenaikeen/news-list-ssr](https://github.com/aikeenaikeen/news-list-ssr)
 
 ## Что реализовано
 
