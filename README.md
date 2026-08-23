@@ -1,7 +1,5 @@
 # Список новостей — Nuxt 4 SSR
 
-[![Quality checks](https://github.com/aikeenaikeen/news-list-ssr/actions/workflows/ci.yml/badge.svg)](https://github.com/aikeenaikeen/news-list-ssr/actions/workflows/ci.yml)
-
 SSR-веб-приложение на Nuxt 4, которое объединяет новости [Mos.ru](https://www.mos.ru/rss) и [Lenta.ru](https://lenta.ru/rss/news), поддерживает поиск, фильтрацию, пагинацию и два адаптивных режима отображения.
 
 ## Возможности
@@ -42,7 +40,7 @@ npm run check
 ## Документация
 
 - [Архитектура, URL, RSS и адаптивность](docs/architecture.md)
-- [Разработка, команды, тесты и CI](docs/development.md)
+- [Разработка, команды и Git workflow](docs/development.md)
 - [Конфигурация и SSR-деплой](docs/deployment.md)
 
 ## Репозиторий

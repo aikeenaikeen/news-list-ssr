@@ -81,9 +81,6 @@ shared/
   constants/
   types/
   utils/
-tests/
-  fixtures/
-  unit/
 public/
 docs/
 ```
