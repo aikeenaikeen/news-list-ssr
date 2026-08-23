@@ -82,6 +82,7 @@ shared/
   types/
   utils/
 public/
+  icons/                  # точные SVG-экспорты управляющих элементов Figma
 docs/
 ```
 
@@ -89,14 +90,14 @@ docs/
 
 ## SCSS и responsive
 
-- Arial используется как базовый шрифт макета;
-- контейнер резиновый с боковыми отступами `20px` и `max-width: 1520px`;
+- Arial Regular/Bold используется как точный системный шрифт макета. Лицензионные файлы Arial не копируются в репозиторий;
+- desktop-контейнер резиновый с боковыми отступами не менее `20px` и `max-width: 1060px`;
 - основной mobile breakpoint — `767px`;
-- узкие tablet-состояния предотвращают пересечение header и search;
-- desktop grid — две колонки по `744px` при ширине макета, изображения скрыты;
-- desktop list — горизонтальная карточка с изображением `280 × 140`;
-- mobile grid — одна колонка без изображений;
-- mobile list — изображение `2:1`, текст расположен ниже;
+- desktop grid — две колонки по `520px` с промежутком `20px`, изображения скрыты;
+- desktop list — карточка `1060 × 189px` с изображением `200 × 100px`;
+- на контрольной ширине `425px` mobile-контент имеет ширину `382px` и начинается с `x=20px`;
+- mobile grid — одна колонка без изображений, mobile list — изображение `338 × 166px` и текст под ним;
+- поиск, refresh и search icons экспортированы из исходного Figma-файла без приблизительной перерисовки;
 - общие mixins покрывают breakpoints, focus ring, shadow, line clamp, reduced motion и reset controls.
 
 Компонентные стили scoped. `additionalData` инжектирует только Sass variables и mixins, поэтому CSS rules не дублируются.
@@ -115,4 +116,4 @@ Mos.ru обычно отдаёт около 10 записей, Lenta.ru — до
 - [`useAsyncData`](https://nuxt.com/docs/4.x/api/composables/use-async-data)
 - [Pinia + Nuxt SSR](https://pinia.vuejs.org/ssr/nuxt.html)
 - [Vue Router navigation](https://router.vuejs.org/guide/essentials/navigation.html)
-- [Figma-макет](https://www.figma.com/design/7CWWZqtl8E8iNJAgWuGnfI/Тестовое?node-id=2682-119)
+- [Исходный Figma-макет из ТЗ](https://www.figma.com/design/7CWWZqtl8E8iNJAgWuGnfI/Тестовое?node-id=2682-119)

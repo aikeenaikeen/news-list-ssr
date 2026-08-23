@@ -47,4 +47,4 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 ## Git workflow
 
-История разработки разделена по функциональности и использует спецификацию [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `chore`, `feat`, `fix`, `test` и `docs`.
+История разработки разделена по функциональности и использует спецификацию [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), например: `chore`, `feat`, `fix`, `refactor` и `docs`.
