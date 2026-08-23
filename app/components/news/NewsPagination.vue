@@ -57,11 +57,11 @@ function pageLocation(page: number) {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 26px;
-  margin-top: 68px;
-  font-size: 24px;
+  gap: 20px;
+  margin-top: 50px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1;
+  line-height: normal;
 
   &__link {
     color: $color-text;
@@ -75,15 +75,15 @@ function pageLocation(page: number) {
   }
 
   &__ellipsis {
-    letter-spacing: 1px;
+    letter-spacing: 0;
   }
 }
 
 @include mobile {
   .news-pagination {
-    gap: 22px;
-    margin-top: 48px;
-    font-size: 16px;
+    gap: 20px;
+    margin-top: 50px;
+    font-size: 18px;
   }
 }
 

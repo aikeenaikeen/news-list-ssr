@@ -20,13 +20,14 @@
 .news-skeleton {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
+  gap: 20px;
 
   &__card {
-    @include card-shadow;
+    @include card-shadow($shadow-card-grid);
     display: flex;
-    min-height: 368px;
-    padding: 40px;
+    min-height: 256px;
+    padding: 30px;
+    border-radius: 3px;
     flex-direction: column;
     gap: 18px;
     background: $color-surface;
@@ -60,11 +61,11 @@
 @include mobile {
   .news-skeleton {
     grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+    gap: 20px;
 
     &__card {
-      min-height: 240px;
-      padding: 28px 20px;
+      min-height: 256px;
+      padding: 30px 22px;
     }
   }
 }

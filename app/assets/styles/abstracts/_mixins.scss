@@ -22,8 +22,8 @@
   outline-offset: $offset;
 }
 
-@mixin card-shadow {
-  box-shadow: $shadow-card;
+@mixin card-shadow($shadow: $shadow-card-list) {
+  box-shadow: $shadow;
 }
 
 @mixin line-clamp($lines) {

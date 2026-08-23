@@ -16,7 +16,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="news-toolbar">
+  <div
+    class="news-toolbar"
+    :class="`news-toolbar--${viewMode}`"
+  >
     <nav
       class="news-toolbar__sources"
       aria-label="Фильтр по источнику"
@@ -57,68 +60,29 @@ const emit = defineEmits<{
       aria-label="Вид списка новостей"
     >
       <button
-        class="news-toolbar__view"
+        class="news-toolbar__view news-toolbar__view--list"
         :class="{ 'news-toolbar__view--active': viewMode === 'list' }"
         type="button"
         :aria-pressed="viewMode === 'list'"
         aria-label="Показать новости списком"
         @click="emit('select-view', 'list')"
       >
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <rect
-            x="2"
-            y="3"
-            width="20"
-            height="8"
-          />
-          <rect
-            x="2"
-            y="13"
-            width="20"
-            height="8"
-          />
-        </svg>
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
       </button>
       <button
-        class="news-toolbar__view"
+        class="news-toolbar__view news-toolbar__view--grid"
         :class="{ 'news-toolbar__view--active': viewMode === 'grid' }"
         type="button"
         :aria-pressed="viewMode === 'grid'"
         aria-label="Показать новости плиткой"
         @click="emit('select-view', 'grid')"
       >
-        <svg
-          viewBox="0 0 24 24"
+        <span
+          v-for="part in 4"
+          :key="part"
           aria-hidden="true"
-        >
-          <rect
-            x="2"
-            y="2"
-            width="9"
-            height="9"
-          />
-          <rect
-            x="13"
-            y="2"
-            width="9"
-            height="9"
-          />
-          <rect
-            x="2"
-            y="13"
-            width="9"
-            height="9"
-          />
-          <rect
-            x="13"
-            y="13"
-            width="9"
-            height="9"
-          />
-        </svg>
+        />
       </button>
     </div>
   </div>
@@ -126,11 +90,12 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 .news-toolbar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 28px;
-  margin: 36px 0 34px;
+  height: 18px;
+  margin: 25px 0 27px;
 
   &__sources,
   &__views {
@@ -139,7 +104,8 @@ const emit = defineEmits<{
   }
 
   &__sources {
-    gap: 24px;
+    gap: 16px;
+    min-width: 0;
   }
 
   &__source,
@@ -150,9 +116,10 @@ const emit = defineEmits<{
 
   &__source {
     color: $color-primary;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 700;
-    line-height: 1;
+    line-height: normal;
+    white-space: nowrap;
     transition: color $transition-fast;
 
     &:hover {
@@ -161,15 +128,15 @@ const emit = defineEmits<{
 
     &--active {
       color: $color-text;
-      cursor: default;
     }
   }
 
   &__reset {
     color: #707070;
-    font-size: 14px;
+    font-size: 12px;
+    line-height: normal;
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 2px;
 
     &:hover {
       color: $color-text;
@@ -177,55 +144,61 @@ const emit = defineEmits<{
   }
 
   &__views {
+    flex: 0 0 auto;
     gap: 10px;
   }
 
   &__view {
-    width: 28px;
-    height: 28px;
+    display: grid;
+    width: 18px;
+    height: 18px;
     color: $color-muted;
     transition: color $transition-fast;
 
-    svg {
-      width: 100%;
-      height: 100%;
-      fill: currentColor;
+    span {
+      background: currentColor;
     }
 
     &:hover,
     &--active {
       color: $color-primary;
     }
+
+    &--list {
+      grid-template-rows: repeat(2, 8px);
+      gap: 2px;
+    }
+
+    &--grid {
+      grid-template: repeat(2, 8px) / repeat(2, 8px);
+      gap: 2px;
+    }
+  }
+
+  &--list .news-toolbar__sources {
+    transform: translateY(3px);
   }
 }
 
 @include mobile {
   .news-toolbar {
-    min-height: 20px;
-    margin: 16px 0;
+    margin: 19px 0 17px 2px;
 
     &__sources {
-      min-width: 0;
-      gap: 18px;
-    }
-
-    &__source {
-      font-size: 14px;
-    }
-
-    &__reset {
-      font-size: 12px;
+      gap: 16px;
     }
 
     &__views {
-      flex: 0 0 auto;
-      gap: 8px;
       margin-left: 12px;
     }
 
-    &__view {
-      width: 19px;
-      height: 19px;
+    &--list {
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+
+    &--list .news-toolbar__sources {
+      transform: none;
     }
   }
 }

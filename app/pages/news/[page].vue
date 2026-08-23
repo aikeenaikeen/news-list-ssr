@@ -181,6 +181,7 @@ useHead({
   <main
     id="main-content"
     class="news-page"
+    :class="`news-page--${newsStore.viewMode}`"
     :aria-busy="status === 'pending'"
   >
     <NewsHeader
@@ -269,34 +270,31 @@ useHead({
 .news-page {
   width: calc(100% - 40px);
   max-width: $content-max-width;
-  min-height: 100vh;
   margin: 0 auto;
-  padding: 54px 0 140px;
+  padding: 36px 0 123px;
+
+  &--list {
+    padding-bottom: 124px;
+  }
 }
 
 .news-feed {
   display: grid;
-  gap: 32px;
+  gap: 20px;
   transition: opacity $transition-fast;
 
   &--grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
   }
 
   &--list {
     grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
+    gap: 20px;
   }
 
   &--refreshing {
     opacity: 0.6;
     pointer-events: none;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 820px) {
-  .news-feed--grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -320,16 +318,25 @@ useHead({
 
 @include mobile {
   .news-page {
-    width: auto;
-    margin: 0;
-    padding: 24px 20px 72px;
+    width: calc(100% - 43px);
+    max-width: none;
+    margin: 0 0 0 20px;
+    padding: 27px 0 299px;
+
+    &--list {
+      padding-bottom: 62px;
+    }
+
+    &--grid :deep(.news-header__brand) {
+      right: -3px;
+    }
   }
 
   .news-feed,
   .news-feed--grid,
   .news-feed--list {
     grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+    gap: 20px;
   }
 
   .news-warning {
