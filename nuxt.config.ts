@@ -1,12 +1,9 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2026-08-23',
 
   modules: [
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
-
-  css: ['~/assets/styles/main.scss'],
 
   devtools: {
     enabled: true,
@@ -33,6 +30,8 @@ export default defineNuxtConfig({
     },
   },
 
+  css: ['~/assets/styles/main.scss'],
+
   runtimeConfig: {
     news: {
       cacheTtlMs: 5 * 60 * 1000,
@@ -42,14 +41,10 @@ export default defineNuxtConfig({
       lentaRssUrl: 'https://lenta.ru/rss/news',
     },
   },
+  compatibilityDate: '2026-08-23',
 
-  pinia: {
-    storesDirs: ['./app/stores/**'],
-  },
-
-  typescript: {
-    strict: true,
-    typeCheck: true,
+  nitro: {
+    compressPublicAssets: true,
   },
 
   vite: {
@@ -65,13 +60,18 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    compressPublicAssets: true,
+  typescript: {
+    strict: true,
+    typeCheck: true,
   },
 
   eslint: {
     config: {
       stylistic: true,
     },
+  },
+
+  pinia: {
+    storesDirs: ['./app/stores/**'],
   },
 })

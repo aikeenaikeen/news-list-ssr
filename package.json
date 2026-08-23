@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": ">=22.19.0"
+    "node": "^24.11.0"
   },
   "scripts": {
     "build": "nuxt build",
@@ -31,10 +31,10 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "1.17.0",
-    "@types/node": "26.2.0",
+    "@types/node": "24.13.3",
     "eslint": "10.9.0",
     "sass": "1.103.1",
-    "typescript": "7.0.2",
+    "typescript": "6.0.3",
     "vitest": "4.1.11",
     "vue-tsc": "3.3.11"
   }
