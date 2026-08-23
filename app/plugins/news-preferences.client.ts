@@ -10,8 +10,18 @@ export default defineNuxtPlugin({
   name: 'news-preferences',
   setup(nuxtApp) {
     const store = useNewsStore()
+    let initialized = false
 
-    nuxtApp.hook('app:mounted', () => {
+    // `page:finish` runs after the initial Suspense branch has hydrated. Reading
+    // localStorage any earlier would make the client expect list markup while
+    // the server necessarily rendered the deterministic grid default.
+    nuxtApp.hook('page:finish', () => {
+      if (initialized) {
+        return
+      }
+
+      initialized = true
+
       try {
         const savedMode = window.localStorage.getItem(NEWS_VIEW_STORAGE_KEY)
         if (isViewMode(savedMode)) {
