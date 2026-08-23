@@ -10,7 +10,7 @@ function boundedNumber(value: unknown, fallback: number, maximum: number): numbe
 }
 
 export default defineEventHandler(async (event) => {
-  const runtimeConfig = useRuntimeConfig(event)
+  const runtimeConfig = useRuntimeConfig()
   const query = getQuery(event)
   const newsConfig = runtimeConfig.news
 
