@@ -20,6 +20,8 @@
 
 TypeScript зафиксирован на `6.0.3`: TypeScript 7 несовместим с текущим `vue-tsc 3.3.11` из-за изменённого package export.
 
+Необходимые native lifecycle scripts закреплены по версиям в `package.json#allowScripts`; остальные dependency install scripts npm блокирует по умолчанию.
+
 ## Команды
 
 | Команда | Назначение |
