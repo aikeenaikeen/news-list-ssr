@@ -22,6 +22,18 @@ TypeScript зафиксирован на `6.0.3`: TypeScript 7 несовмес�
 
 Необходимые native lifecycle scripts закреплены по версиям в `package.json#allowScripts`; остальные dependency install scripts npm блокирует по умолчанию.
 
+## Windows PowerShell
+
+На компьютере, где выполнение PowerShell-скриптов полностью отключено, команда `npm` может завершиться с `PSSecurityException` ещё до обращения к проекту. Это одноразовая настройка пользовательского окружения, а не зависимость приложения.
+
+Разрешите локальные скрипты для текущего пользователя без прав администратора:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+Политика `RemoteSigned` продолжает требовать подпись для загруженных из интернета скриптов. После настройки обычные команды `npm i` и `npm run dev` работают в PowerShell; при необходимости переоткройте терминал.
+
 ## Команды
 
 | Команда | Назначение |
