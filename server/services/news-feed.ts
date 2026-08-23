@@ -28,6 +28,9 @@ interface SourceResult {
 }
 
 const sourceCache = new Map<NewsSourceId, SourceCacheEntry>()
+const MAX_FEED_SIZE = 5 * 1024 * 1024
+const FORCE_REFRESH_COOLDOWN_MS = 15_000
+let lastForcedRefreshAt = 0
 
 function sourceUrl(sourceId: NewsSourceId, options: NewsRuntimeOptions): string {
   return sourceId === 'mos' ? options.mosRssUrl : options.lentaRssUrl
@@ -68,6 +71,10 @@ async function fetchSource(
       timeout: options.requestTimeoutMs,
     })
 
+    if (xml.length > MAX_FEED_SIZE) {
+      throw new Error(`Ответ ${source.name} превышает допустимый размер`)
+    }
+
     const items = parseRssFeed(xml, source, options.maxItemsPerSource)
     sourceCache.set(source.id, {
       items,
@@ -101,7 +108,7 @@ function sortByDateDescending(items: NewsItem[]): NewsItem[] {
   return [...items].sort((left, right) => {
     const leftTime = left.publishedAt ? Date.parse(left.publishedAt) : 0
     const rightTime = right.publishedAt ? Date.parse(right.publishedAt) : 0
-    return rightTime - leftTime
+    return rightTime - leftTime || left.id.localeCompare(right.id)
   })
 }
 
@@ -113,8 +120,16 @@ export async function getNewsFeed(
   options: NewsRuntimeOptions,
   forceRefresh = false,
 ): Promise<NewsApiResponse> {
+  const now = Date.now()
+  const canForceRefresh = forceRefresh
+    && now - lastForcedRefreshAt >= FORCE_REFRESH_COOLDOWN_MS
+
+  if (canForceRefresh) {
+    lastForcedRefreshAt = now
+  }
+
   const results = await Promise.allSettled(
-    NEWS_SOURCES.map(source => fetchSource(source, options, forceRefresh)),
+    NEWS_SOURCES.map(source => fetchSource(source, options, canForceRefresh)),
   )
 
   const successful = results.flatMap((result): SourceResult[] => (

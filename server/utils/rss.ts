@@ -68,9 +68,7 @@ function safeUrl(value: unknown, baseUrl: string): string | null {
 
   try {
     const url = new URL(candidate, baseUrl)
-    return url.protocol === 'http:' || url.protocol === 'https:'
-      ? url.toString()
-      : null
+    return url.protocol === 'https:' ? url.toString() : null
   }
   catch {
     return null

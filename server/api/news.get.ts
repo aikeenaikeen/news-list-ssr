@@ -5,6 +5,10 @@ function positiveNumber(value: unknown, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
 }
 
+function boundedNumber(value: unknown, fallback: number, maximum: number): number {
+  return Math.min(positiveNumber(value, fallback), maximum)
+}
+
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig(event)
   const query = getQuery(event)
@@ -17,9 +21,9 @@ export default defineEventHandler(async (event) => {
 
   return getNewsFeed(
     {
-      cacheTtlMs: positiveNumber(newsConfig.cacheTtlMs, 300_000),
-      requestTimeoutMs: positiveNumber(newsConfig.requestTimeoutMs, 10_000),
-      maxItemsPerSource: positiveNumber(newsConfig.maxItemsPerSource, 50),
+      cacheTtlMs: boundedNumber(newsConfig.cacheTtlMs, 300_000, 60 * 60 * 1000),
+      requestTimeoutMs: boundedNumber(newsConfig.requestTimeoutMs, 10_000, 30_000),
+      maxItemsPerSource: boundedNumber(newsConfig.maxItemsPerSource, 50, 200),
       mosRssUrl: String(newsConfig.mosRssUrl),
       lentaRssUrl: String(newsConfig.lentaRssUrl),
     },
