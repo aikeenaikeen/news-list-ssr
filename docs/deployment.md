@@ -7,7 +7,7 @@
 | Переменная | Default |
 |---|---|
 | `NUXT_NEWS_MOS_RSS_URL` | `https://www.mos.ru/rss` |
-| `NUXT_NEWS_LENTA_RSS_URL` | `https://lenta.ru/rss/news` |
+| `NUXT_NEWS_RBC_RSS_URL` | `https://rssexport.rbc.ru/rbcnews/news/30/full.rss` |
 | `NUXT_NEWS_CACHE_TTL_MS` | `300000` |
 | `NUXT_NEWS_REQUEST_TIMEOUT_MS` | `10000` |
 | `NUXT_NEWS_MAX_ITEMS_PER_SOURCE` | `50` |
