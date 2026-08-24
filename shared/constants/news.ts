@@ -2,9 +2,9 @@ import type { NewsSource } from '../types/news'
 
 export const NEWS_SOURCES = [
   {
-    id: 'lenta',
-    name: 'Lenta.ru',
-    homepage: 'https://lenta.ru/',
+    id: 'rbc',
+    name: 'РБК',
+    homepage: 'https://www.rbc.ru/',
   },
   {
     id: 'mos',

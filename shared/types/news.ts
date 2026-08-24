@@ -1,4 +1,4 @@
-export const NEWS_SOURCE_IDS = ['lenta', 'mos'] as const
+export const NEWS_SOURCE_IDS = ['rbc', 'mos'] as const
 
 export type NewsSourceId = (typeof NEWS_SOURCE_IDS)[number]
 export type NewsViewMode = 'grid' | 'list'

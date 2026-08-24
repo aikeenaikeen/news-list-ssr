@@ -162,9 +162,9 @@ useSeoMeta({
   title: () => page.value > 1 ? `Новости — страница ${page.value}` : 'Новости',
   description: () => query.value
     ? `Новости по запросу «${query.value}» на странице ${page.value}.`
-    : `Свежие новости Mos.ru и Lenta.ru, страница ${page.value}.`,
+    : `Свежие новости Mos.ru и РБК, страница ${page.value}.`,
   ogTitle: () => page.value > 1 ? `Список новостей — страница ${page.value}` : 'Список новостей',
-  ogDescription: 'Свежие новости Mos.ru и Lenta.ru в одном месте.',
+  ogDescription: 'Свежие новости Mos.ru и РБК в одном месте.',
 })
 
 useHead({

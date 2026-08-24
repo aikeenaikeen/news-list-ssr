@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
       requestTimeoutMs: boundedNumber(newsConfig.requestTimeoutMs, 10_000, 30_000),
       maxItemsPerSource: boundedNumber(newsConfig.maxItemsPerSource, 50, 200),
       mosRssUrl: String(newsConfig.mosRssUrl),
-      lentaRssUrl: String(newsConfig.lentaRssUrl),
+      rbcRssUrl: String(newsConfig.rbcRssUrl),
     },
     query.refresh === '1',
   )

@@ -19,7 +19,7 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Свежие новости Mos.ru и Lenta.ru в одном месте.',
+          content: 'Свежие новости Mos.ru и РБК в одном месте.',
         },
         { name: 'theme-color', content: '#0029ff' },
       ],
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       requestTimeoutMs: 10_000,
       maxItemsPerSource: 50,
       mosRssUrl: 'https://www.mos.ru/rss',
-      lentaRssUrl: 'https://lenta.ru/rss/news',
+      rbcRssUrl: 'https://rssexport.rbc.ru/rbcnews/news/30/full.rss',
     },
   },
 

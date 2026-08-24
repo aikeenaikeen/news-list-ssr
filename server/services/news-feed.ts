@@ -13,7 +13,7 @@ interface NewsRuntimeOptions {
   requestTimeoutMs: number
   maxItemsPerSource: number
   mosRssUrl: string
-  lentaRssUrl: string
+  rbcRssUrl: string
 }
 
 interface SourceCacheEntry {
@@ -153,7 +153,7 @@ export async function fetchFeedXml(
 }
 
 function sourceUrl(sourceId: NewsSourceId, options: NewsRuntimeOptions): string {
-  return sourceId === 'mos' ? options.mosRssUrl : options.lentaRssUrl
+  return sourceId === 'mos' ? options.mosRssUrl : options.rbcRssUrl
 }
 
 function publicErrorMessage(source: NewsSource): string {
